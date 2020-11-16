@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Reg</title>
+</head>
+<body>
+    <div>
+        <h1>Register:</h1>
+        <div>
+            {% if messages %}
+            <ul>
+                {% for error in messages %}
+                <li>{{error}}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div>
+            <form action="/create_user" method="post">
+            {% csrf_token %}
+            <input type="text" name="f_name" placeholder="First Name">
+            <input type="text" name="l_name" placeholder="Last Name">
+            <input type="email" name="email" placeholder="Email@account.com">
+            <input type="password" name="password" placeholder="Password (8 characters) ">
+            <input type="password" name="conf_password" placeholder="Confirm Password">
+            <input type="submit" value="Register">
+            </form>
+        </div>
+
+    </div>
+    <div>
+        <h1>Login:</h1>
+        <div>
+            <!-- errors -->
+        </div>
+
+        <div>
+            <form action="login_user" method="post">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Email">
+                <input type="password" name="password" placeholder="Password">
+                <input type="submit" value="Login">
+            </form>
+        </div>
+
+    </div>
+    
+    
+</body>
+</html>

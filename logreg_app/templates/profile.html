@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+    <h1> {{user.f_name}} {{user.l_name}}'s Wall</h1>
+    <h3>Their Wall Posts:</h3>
+    <div id="profile_posts">
+        {% for post in user.messages.all %}
+        <p>{{post.content}} -- {{post.created_at}}</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

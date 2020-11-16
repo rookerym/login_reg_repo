@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success!</title>
+</head>
+<body>
+    <h1> Welcome, {{ request.session.user_name}}</h1>
+    <p>You are successfuly logged into your account</p>
+    <a href="/logout">Logout</a>
+    <h4>Add a Message To The Wall:</h4>
+    
+    <form action="/create_message" method="post">
+        {% csrf_token %}
+        <textarea name="message" cols="60" rows="6"></textarea>
+        <input type="submit" value="Post It!">
+    </form>
+
+    <div id="messages">
+        <h4>The Wall Posts:</h4>
+        {% for message in all_messages %}
+        <div id="message">
+            <p>Posted by: <a href="/user/{{message.poster.id}}">{{message.poster.f_name}} {{message.poster.l_name}}</a> -- {{message.created_at}}</p>
+            {% if message.poster.id == request.session.user_id %}
+            <a href="/delete_wall/{{message.id}}">OOPS! remove this Post</a>
+            {% endif %}
+            <p>{{message.content}}</p>
+            <form action="/create_comment" method="post">
+                {% csrf_token %}
+                <input type="text" name="comment" placeholder="Add a comment"><input type="submit" value="Post It!">
+                <input type="hidden" name="message" value="{{message.id}}">
+            </form>
+            <p>comments:</p>
+            {% for comment in message.comments.all %}
+                <ul>
+                    <li>{{comment.content}} --by {{comment.poster.f_name}} {{comment.poster.l_name}} -- {% if comment.poster.id == request.session.user_id %}
+                        <a href="/delete_comm/{{comment.id}}">Remove my Comment</a></li>{% endif %}
+                    </li>
+                </ul>
+            {% endfor %}
+            <p>________________________________________________________________</p>
+        </div>
+        {% endfor %}
+
+    </div>
+
+
+    
+</body>
+</html>
